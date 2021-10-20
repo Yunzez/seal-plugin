@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CSS Template</title>
+    <meta charset="utf-8">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+
+<div class="row">
+    <div class="col first-round">
+        <h5>If you are one of our staff, please login</h5>
+        <a type="button" id="login" class=" btn btn-secondary mb-2">Login</a>
+        <!-- <button onclick="authenticate().then(loadClient)">authorize</button> -->
+        <!-- <button onclick="execute()">execute</button> -->
+    </div>
+
+    <div class="col first-round">
+        <h5>If you are not, apply now!</h5>
+        <a class="btn btn-secondary mb-2" href="https://www.uwseal.org/apply-2/">Apply</a>
+    </div>
+
+    <div class="col second-round d-none">
+        <form>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control email" id="floatingInput" placeholder="name@example.com">
+                <label for="floatingInput">Staff email address</label>
+                <div id="emailHelp" class="form-text">
+                    <p>Use the email that you used in<a
+                            href="https://docs.google.com/spreadsheets/d/1k19sS9NfwlVfG7GCCf18LO69pr4reSOTN6v1lY2nykQ/edit?pli=1#gid=693163194">
+                            Seal life</a></p>
+                </div>
+            </div>
+
+            <p class="warning mt-2 text-danger"></p>
+            <p>
+            </p>
+            <div class="d-flex mt-4 mb-5">
+                <a class="btn btn-link me-3" href="https://www.uwseal.org/apply-2/">Apply</a>
+                <a onclick="authenticate().then(loadClient)" class=" btn btn-secondary final-login">Login</a>
+
+            </div>
+        </form>
+    </div>
+
+    <div class="spinner-border d-none loading" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <div class="d-none row userPage g-2">
+        <div class="col-9 bg-light container">
+            <h3 class="greeting"></h3>
+            <hr class="dropdown-divider">
+            <h5>Check out these resources</h5>
+            <div class="d-flex">
+                <div class="card m-2" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Seal Life</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">The main panel</h6>
+                        <p class="card-text">For checking in and checking your tasks, the check in and mission task will
+                            be avaliable on this portal in the future</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1k19sS9NfwlVfG7GCCf18LO69pr4reSOTN6v1lY2nykQ/edit?pli=1#gid=693163194"
+                            class="card-link btn btn-secondary">Go to Seal Life</a>
+                    </div>
+                </div>
+
+                <div class="card  m-2" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Training program</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">get trained</h6>
+                        <p class="card-text">When you're done with a chapter, mark it in the training program</p>
+                        <a href="https://docs.google.com/spreadsheets/d/12vGRQ5XV1oSUY8Bptk3x0eGLtQY96JN-fioIeif5eM4/edit#gid=319032793"
+                            class="card-link btn btn-secondary">Traning Check</a>
+                        <a href="https://docs.google.com/document/d/1BiK__w_-F3xfQgRa23Kx10FHiZPz8gGIw98JXF5dyig/edit#heading=h.47dwbg2j84jj"
+                            class="card-link btn btn-secondary">Training</a>
+                    </div>
+                </div>
+
+                <div class="card  m-2" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Meeting Schedule</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Don't miss your meetings</h6>
+                        <p class="card-text">Schedule of meetings of the lab</p>
+                        <a href="https://docs.google.com/spreadsheets/d/1hp_7fR1j7Yse6ILdFOObmc_G9IMMgUp23fYBPN1ffv4/edit?pli=1#gid=222552708"
+                            class="card-link btn btn-secondary mt-3">Go to scheduler</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-3 bg-light">
+            <h3 class="card-title">Staff Info:</h3>
+            <div class="card mb-5">
+                <!-- <img src="https://uwseal.org/wp-content/uploads/seal-sbgrepo-com.svg" class="card-img-top"
+                    alt="seal-icon"> -->
+                <div class="card-body">
+                    <hr class="dropdown-divider">
+                    <div class="card-text staff-info"></div>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script src="https://apis.google.com/js/api.js"></script>
+    <script>
+        const buttonLogin = document.getElementById("login");
+        buttonLogin.addEventListener('click', (event) => {
+            console.log("clicked login")
+            handleLogin()
+        })
+
+        // loading the final user page
+        function loadUser(user) {
+            let nickname = user[0];
+            let project = user[3];
+            let email = user[2];
+            let name = user[1];
+            let staffInfo = document.getElementsByClassName('staff-info')[0];
+            let userpage = document.getElementsByClassName('userPage')[0];
+            document.getElementsByClassName('greeting')[0].innerHTML = ('Greeting ' + nickname)
+            staffInfo.innerHTML = ('<h5> Name: ' + name + "</h5> <h5> email: " + email + "</h5> <h5> Project: " + project + "</h5>");
+            userpage.classList.remove('d-none');
+        }
+
+        function authenticate() {
+            return gapi.auth2.getAuthInstance()
+                .signIn({ scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/spreadsheets.readonly" })
+                .then(function () { console.log("Sign-in successful"); },
+                    function (err) { console.error("Error signing in", err); });
+        }
+        function loadClient() {
+            gapi.client.setApiKey("AIzaSyC2jHi0StmU2DreKTWizRaS4yPwfi1W6DM");
+            return gapi.client.load("https://sheets.googleapis.com/$discovery/rest?version=v4")
+                .then(function () { console.log("GAPI client loaded for API"); execute() },
+                    function (err) { console.error("Error loading GAPI client for API", err); });
+        }
+        // Make sure the client is loaded and sign-in is complete before calling this method.
+        function execute() {
+            return gapi.client.sheets.spreadsheets.values.get({
+                "spreadsheetId": "1k19sS9NfwlVfG7GCCf18LO69pr4reSOTN6v1lY2nykQ",
+                "range": "A1:D100"
+            })
+                .then(function (response) {
+                    // Handle the results here (response.result has the parsed body).
+                    //console.log("Response", response);
+                    cleanData(response)
+                },
+                    function (err) { console.error("Execute error", err); });
+        }
+        gapi.load("client:auth2", function () {
+            gapi.auth2.init({ client_id: "1070473500199-dk8lrcie8km9s3r4cqqotr9e9brfrgs1.apps.googleusercontent.com" });
+        });
+
+
+        //loading the login page
+        function cleanData(response) {
+            let loginInterface = document.getElementsByClassName('second-round')[0];
+            loginInterface.classList.add("d-none");
+
+
+
+            let userCheck = false;
+            //get rid of title 
+            let people = response.result.values.slice(7);
+            const finalLogin = document.getElementsByClassName("final-login");
+            var userEmail = document.getElementsByClassName('email');
+            let user = "";
+
+            //loop through and look for the same email
+            people.forEach((person) => {
+                //console.log(person[2], userEmail[0].value)
+                if (person[2] == userEmail[0].value) {
+                    console.log("found same email, logging in");
+                    userCheck = true;
+                    user = person;
+                }
+            })
+
+            //initializing user page
+            console.log(user, userCheck);
+
+
+            console.log("clicked final login");
+            console.log("email: " + userEmail[0].value);
+            let loginWarning = document.getElementsByClassName('warning');
+            if (userEmail[0].value == '') {
+                loginInterface.classList.remove("d-none");
+                loginWarning[0].innerHTML = "please fill out the blank"
+            } else if (!userCheck) {
+                loginInterface.classList.remove("d-none");
+                loginWarning[0].innerHTML = "Sorry, we cannot find your email in Seal google group, please double check"
+            } else {
+                loadUser(user);
+            }
+
+        }
+        function handleLogin() {
+            let firstDiv = document.getElementsByClassName("first-round");
+            firstDiv[0].classList.add("d-none");
+            firstDiv[1].classList.add("d-none");
+
+            let secondDiv = document.getElementsByClassName("second-round")
+            secondDiv[0].classList.remove("d-none");
+        }
+
+
+    </script>
+
+</html>
