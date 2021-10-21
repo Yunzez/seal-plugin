@@ -21,6 +21,22 @@
         <a class="btn btn-secondary mb-2" href="https://www.uwseal.org/apply-2/">Apply</a>
     </div>
 
+    <div class="first-round">
+        <p>
+            <a class="btn btn-light mt-5" data-bs-toggle="collapse" href="#collapseExample" role="button"
+                aria-expanded="false" aria-controls="collapseExample">
+                About this page
+            </a>
+        </p>
+        <div class="collapse" id="collapseExample">
+            <div class="card card-body mb-3">
+                <p>Please check out <a href="https://github.com/Yunzez/seal-plugin"> this </a> to access the source
+                    code.
+                </p>
+            </div>
+        </div>
+    </div>
+
     <div class="col second-round d-none">
         <form>
             <div class="form-floating mb-3">
@@ -38,6 +54,7 @@
             </p>
             <div class="d-flex mt-4 mb-5">
                 <a class="btn btn-link me-3" href="https://www.uwseal.org/apply-2/">Apply</a>
+                <!-- <a onclick="execute()" class=" btn btn-secondary final-login">Login</a> -->
                 <a onclick="authenticate().then(loadClient)" class=" btn btn-secondary final-login">Login</a>
 
             </div>
@@ -61,7 +78,7 @@
                         <p class="card-text">For checking in and checking your tasks, the check in and mission task will
                             be avaliable on this portal in the future</p>
                         <a href="https://docs.google.com/spreadsheets/d/1k19sS9NfwlVfG7GCCf18LO69pr4reSOTN6v1lY2nykQ/edit?pli=1#gid=693163194"
-                            class="card-link btn btn-secondary">Go to Seal Life</a>
+                            target="_blank" class="card-link btn btn-secondary">Go to Seal Life</a>
                     </div>
                 </div>
 
@@ -71,9 +88,9 @@
                         <h6 class="card-subtitle mb-2 text-muted">get trained</h6>
                         <p class="card-text">When you're done with a chapter, mark it in the training program</p>
                         <a href="https://docs.google.com/spreadsheets/d/12vGRQ5XV1oSUY8Bptk3x0eGLtQY96JN-fioIeif5eM4/edit#gid=319032793"
-                            class="card-link btn btn-secondary">Traning Check</a>
+                            target="_blank" class="card-link btn btn-secondary">Traning Check</a>
                         <a href="https://docs.google.com/document/d/1BiK__w_-F3xfQgRa23Kx10FHiZPz8gGIw98JXF5dyig/edit#heading=h.47dwbg2j84jj"
-                            class="card-link btn btn-secondary">Training</a>
+                            target="_blank" class="card-link btn btn-secondary">Training</a>
                     </div>
                 </div>
 
@@ -83,7 +100,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">Don't miss your meetings</h6>
                         <p class="card-text">Schedule of meetings of the lab</p>
                         <a href="https://docs.google.com/spreadsheets/d/1hp_7fR1j7Yse6ILdFOObmc_G9IMMgUp23fYBPN1ffv4/edit?pli=1#gid=222552708"
-                            class="card-link btn btn-secondary mt-3">Go to scheduler</a>
+                            target="_blank" class="card-link btn btn-secondary mt-3">Go to scheduler</a>
                     </div>
                 </div>
             </div>
@@ -104,7 +121,9 @@
 
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
     <script src="https://apis.google.com/js/api.js"></script>
     <script>
         const buttonLogin = document.getElementById("login");
@@ -128,7 +147,9 @@
 
         function authenticate() {
             return gapi.auth2.getAuthInstance()
-                .signIn({ scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/spreadsheets.readonly" })
+            //original scope provided by google, they are still invalid
+                //.signIn({ scope: "https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive.readonly https://www.googleapis.com/auth/spreadsheets https://www.googleapis.com/auth/spreadsheets.readonly" })
+                .signIn()
                 .then(function () { console.log("Sign-in successful"); },
                     function (err) { console.error("Error signing in", err); });
         }
@@ -136,7 +157,7 @@
             gapi.client.setApiKey("AIzaSyC2jHi0StmU2DreKTWizRaS4yPwfi1W6DM");
             return gapi.client.load("https://sheets.googleapis.com/$discovery/rest?version=v4")
                 .then(function () { console.log("GAPI client loaded for API"); execute() },
-                    function (err) { console.error("Error loading GAPI client for API", err); });
+                    function (err) {console.error("Error loading GAPI client for API", err); });
         }
         // Make sure the client is loaded and sign-in is complete before calling this method.
         function execute() {
@@ -202,6 +223,7 @@
             let firstDiv = document.getElementsByClassName("first-round");
             firstDiv[0].classList.add("d-none");
             firstDiv[1].classList.add("d-none");
+            firstDiv[2].classList.add("d-none");
 
             let secondDiv = document.getElementsByClassName("second-round")
             secondDiv[0].classList.remove("d-none");
